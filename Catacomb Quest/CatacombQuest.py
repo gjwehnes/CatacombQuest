@@ -463,9 +463,7 @@ def build_interface():
     
     inventory_widget = Text(root, width = 30, height = 8, relief = GROOVE , state=DISABLED )
     inventory_widget.grid(row=2, column=2, rowspan = 2, padx = 2, pady = 2,sticky=W)
-
-    #answer = simpledialog.askstring("Input", "What is your first name?", parent=root)
-       
+    
 def set_current_state():
 
     global refresh_location
@@ -488,7 +486,7 @@ def set_current_state():
     refresh_objects_visible = False
     
     command_widget.config(state = ("disabled" if end_of_game else "normal"))
-
+    
 def north_button_click():
     print_to_description("N", True)
     perform_command("N", "")
@@ -538,6 +536,8 @@ def main():
     
     build_interface()
     set_current_state()
+    #answer = simpledialog.askstring("Input", "What is your first name?", parent=root)    
     root.mainloop()
+        
         
 main()
