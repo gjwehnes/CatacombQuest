@@ -64,8 +64,6 @@ def perform_command(verb, noun):
         perform_read_command(noun)        
     elif (verb == "OPEN"):
         perform_open_command(noun)
-    elif (verb == 'STATE'):
-        set_current_state()
     else:
         print_to_description("huh?")       
         
@@ -502,7 +500,7 @@ def build_interface():
     inventory_widget = Text(root, width = 30, height = 8, relief = GROOVE , state=DISABLED )
     inventory_widget.grid(row=2, column=2, rowspan = 2, padx = 2, pady = 2,sticky=W)
 
-#    answer = simpledialog.askstring("Input", "What is your first name?", parent=root)
+    #answer = simpledialog.askstring("Input", "What is your first name?", parent=root)
        
 def set_current_state():
 
@@ -538,9 +536,6 @@ def set_directions_to_move():
     east_button.config(state = ("normal" if move_to_east else "disabled"))
     west_button.config(state = ("normal" if move_to_west else "disabled"))
 
-    
-    
-    
 def main():
     
     build_interface()
