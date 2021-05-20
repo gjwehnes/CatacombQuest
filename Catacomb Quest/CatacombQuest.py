@@ -24,10 +24,11 @@ east_button = None
 west_button = None
 root = None
 
-current_location = STARTING_POINT_LOCATION
-turns_in_room_with_dragon = 3
 refresh_location = True
 refresh_objects_visible = True
+
+current_location = STARTING_POINT_LOCATION
+turns_in_room_with_dragon = 3
 
 end_of_game = False
 sword_found = False
@@ -238,14 +239,6 @@ def perform_open_command(object_name):
             print_to_description("You can't open one of those.")
     else:
         print_to_description("You don't see one of those here.")
-
-def get_game_object(object_name):
-    sought_object = None
-    for current_object in game_objects:
-        if (current_object.name.upper() == object_name):
-            sought_object = current_object
-            break
-    return sought_object
                 
 def describe_current_location():
         
@@ -302,18 +295,6 @@ def set_current_image():
         image_label.img = PhotoImage(file = 'res/hallway.gif') # change path to image as necessary
         
     image_label.config(image = image_label.img)
-        
-     
-def print_to_description(output, user_input=False):
-    description_widget.config(state = 'normal')
-    description_widget.insert(END, output)
-    if (user_input):
-        description_widget.tag_add("blue_text", CURRENT + " linestart", END + "-1c")
-        description_widget.tag_configure("blue_text", foreground = 'blue')
-    description_widget.insert(END, '\n')        
-    description_widget.config(state = 'disabled')
-    description_widget.see(END)
-
 
 
 def get_location_to_north():
@@ -366,6 +347,13 @@ def get_location_to_west():
     else:
         return 0
         
+def get_game_object(object_name):
+    sought_object = None
+    for current_object in game_objects:
+        if (current_object.name.upper() == object_name):
+            sought_object = current_object
+            break
+    return sought_object
 
 def describe_current_visible_objects():
     
@@ -395,7 +383,7 @@ def describe_current_inventory():
     inventory_widget.delete(1.0, END)
     inventory_widget.insert(1.0, inventory)
     inventory_widget.config(state = "disabled")
-            
+
 def handle_special_condition():
     
     global turns_in_room_with_dragon
@@ -412,40 +400,16 @@ def handle_special_condition():
             print_to_description("Your last thought is that the dragon must be guarding something...")
             print_to_description("GAME OVER")            
             end_of_game = True
-
- 
-def north_button_click():
-    print_to_description("N", True)
-    perform_command("N", "")
-    set_current_state()
-
-def south_button_click():
-    print_to_description("S", True)
-    perform_command("S", "")
-    set_current_state()
-
-def east_button_click():
-    print_to_description("E", True)
-    perform_command("E", "")
-    set_current_state()
-
-def west_button_click():
-    print_to_description("W", True)
-    perform_command("W", "")
-    set_current_state()
-
-def return_key_enter(event):
-    if( event.widget == command_widget):
-        command_string = command_widget.get()
-        print_to_description(command_string, True)
-
-        command_widget.delete(0, END)
-        words = command_string.split(' ', 1)
-        verb = words[0]
-        noun = (words[1] if (len(words) > 1) else "")
-        perform_command(verb.upper(), noun.upper())
-        
-        set_current_state()
+         
+def print_to_description(output, user_input=False):
+    description_widget.config(state = 'normal')
+    description_widget.insert(END, output)
+    if (user_input):
+        description_widget.tag_add("blue_text", CURRENT + " linestart", END + "-1c")
+        description_widget.tag_configure("blue_text", foreground = 'blue')
+    description_widget.insert(END, '\n')        
+    description_widget.config(state = 'disabled')
+    description_widget.see(END)
 
 def build_interface():
     
@@ -516,6 +480,7 @@ def set_current_state():
 
     handle_special_condition()
     set_directions_to_move()            
+
     if (end_of_game == False):
         describe_current_inventory()
     
@@ -523,6 +488,39 @@ def set_current_state():
     refresh_objects_visible = False
     
     command_widget.config(state = ("disabled" if end_of_game else "normal"))
+
+def north_button_click():
+    print_to_description("N", True)
+    perform_command("N", "")
+    set_current_state()
+
+def south_button_click():
+    print_to_description("S", True)
+    perform_command("S", "")
+    set_current_state()
+
+def east_button_click():
+    print_to_description("E", True)
+    perform_command("E", "")
+    set_current_state()
+
+def west_button_click():
+    print_to_description("W", True)
+    perform_command("W", "")
+    set_current_state()
+
+def return_key_enter(event):
+    if( event.widget == command_widget):
+        command_string = command_widget.get()
+        print_to_description(command_string, True)
+
+        command_widget.delete(0, END)
+        words = command_string.split(' ', 1)
+        verb = words[0]
+        noun = (words[1] if (len(words) > 1) else "")
+        perform_command(verb.upper(), noun.upper())
+        
+        set_current_state()
 
 def set_directions_to_move():
 
