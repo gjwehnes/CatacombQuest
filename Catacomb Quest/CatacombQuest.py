@@ -52,7 +52,7 @@ def perform_command(verb, noun):
     elif ((verb == "N") or (verb == "S") or (verb == "E") or (verb == "W")):
         perform_go_command(verb)        
     elif ((verb == "NORTH") or (verb == "SOUTH") or (verb == "EAST") or (verb == "WEST")):
-        perform_go_command(noun)        
+        perform_go_command(verb)        
     elif (verb == "GET"):
         perform_get_command(noun)
     elif (verb == "PUT"):
