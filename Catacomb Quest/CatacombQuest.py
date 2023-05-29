@@ -170,6 +170,7 @@ def perform_look_command(object_name):
 def perform_kill_command(object_name):
 
     global dragon_killed
+    global end_of_game
     game_object = get_game_object(object_name)
  
     if not (game_object is None):
@@ -180,18 +181,31 @@ def perform_kill_command(object_name):
                 print_to_description("I don't see a dragon around here!")
             elif (dragon_killed):
                 print_to_description("He's already quite dead.")
-            elif (sword_object.carried == False):
-                print_to_description("You put up a good fight, but ultimately you are not going kill a dragon")
-                print_to_description("with your bare hands. Maybe you should look for a weapon of some sort?!")
-                print_to_description("GAME OVER")
-                global end_of_game
-                end_of_game = True
             else:
-                print_to_description("The dragon puts up quite the fight, but you emerge victorious, albeit a little burnt.")
-                print_to_description("The dragon's corpse slowly disintegrates into a fine black powder, which drifts away in the draft.")
-                print_to_description("Where the dragon was laying, you see something shiny!")
-                key_object.visible = True
-                dragon_killed = True
+                answer = simpledialog.askstring("Input",
+                                                "With what will you kill it?",
+                                                parent=root)
+                if (answer != "sword"):
+                    print_to_description("You put up a good fight, but ultimately you are not going kill a dragon " + \
+                        "with your " + answer + ". Maybe you should look for a weapon of some sort?!")
+                    print_to_description("GAME OVER")
+                    end_of_game = True
+                elif (sword_object.carried == False):
+                    print_to_description("What, with your imaginary sword? That didn't work too well. ")
+                    print_to_description("GAME OVER")
+                    end_of_game = True
+                else:
+                    print_to_description(
+                        "The dragon puts up quite the fight, but you emerge victorious, albeit a little burnt."
+                    )
+                    print_to_description(
+                        "The dragon's corpse slowly disintegrates into a fine black powder, which drifts away in the draft."
+                    )
+                    print_to_description(
+                        "Where the dragon was laying, you see something shiny!"
+                    )
+                    key_object.visible = True
+                    dragon_killed = True
         else:
             print_to_description("You can't kill inanimate objects, silly!")
     else:
