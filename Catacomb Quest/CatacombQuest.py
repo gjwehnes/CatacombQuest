@@ -495,8 +495,6 @@ def build_interface():
     else:
         inventory_widget.grid(row=2, column=2, rowspan = 2, padx = 2, pady = 2,sticky=W)
 
-#    answer = simpledialog.askstring("Input", "What is your first name?", parent=root)
-       
 def set_current_state():
 
     global refresh_location
