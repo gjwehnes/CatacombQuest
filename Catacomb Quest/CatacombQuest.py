@@ -269,6 +269,7 @@ def describe_current_location():
         print_to_description("You are in a small room with no other exit.")
         if (dragon_killed == False):
             print_to_description("In the middle of the room there is a fierce-looking dragon!")
+            play_audio('res/drama.wav', False, False)   
     elif (current_location == PASSAGE_WAY_A_LOCATION):
         print_to_description("You are in a dark passageway sloping down towards the north") 
     elif (current_location == PASSAGE_WAY_B_LOCATION):
@@ -564,12 +565,30 @@ def set_directions_to_move():
     east_button.config(state = ("normal" if move_to_east else "disabled"))
     west_button.config(state = ("normal" if move_to_west else "disabled"))
 
-def main():
-    
+def play_audio(filename, asynchronous = True, loop = True):
+
+    import platform
+    operating_system = platform.system()
+
+    if (operating_system == 'Linux'):
+        from replit import audio
+        sound = audio.play_file(filename)
+        sound = audio.play_file('res/cold-moon.wav')
+        sound.paused = False
+        #according to documentation, setting .set_loop to -1 should create infinite loop in replit. Can't get it to work
+        sound.set_loop(-1)
+    elif (operating_system == 'Windows'):  
+        import winsound
+        winsound.PlaySound(filename,winsound.SND_FILENAME + \
+                           (winsound.SND_ASYNC if asynchronous else 0)  + \
+                           (winsound.SND_LOOP if loop else 0)
+                           )
+
+def main():    
+
     build_interface()
     set_current_state()
-    #answer = simpledialog.askstring("Input", "What is your first name?", parent=root)    
+    play_audio('res/cold-moon.wav')
     root.mainloop()
-        
-        
+
 main()
